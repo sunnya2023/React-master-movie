@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { IGetMoviesResult, getMovies } from "../api";
 import styled from "styled-components";
 import { makeImagePath } from "../utils";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Wrapper = styled.div`
   background: black;
@@ -32,6 +33,21 @@ const Overview = styled.p`
   font-size: 20px;
   width: 50%;
 `;
+const Slider = styled.div`
+  position: relative;
+`;
+const Row = styled(motion.div)`
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  position: absolute;
+  width: 100%;
+`;
+const Box = styled(motion.div)`
+  background-color: #fff;
+  height: 200px;
+`;
+
 const Home = () => {
   const { isLoading, data } = useQuery<IGetMoviesResult>({
     queryKey: [["movies", "nowPlaying"]],
@@ -48,6 +64,18 @@ const Home = () => {
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
+          <Slider>
+            <AnimatePresence>
+              <Row>
+                <Box />
+                <Box />
+                <Box />
+                <Box />
+                <Box />
+                <Box />
+              </Row>
+            </AnimatePresence>
+          </Slider>
         </>
       )}
     </Wrapper>
